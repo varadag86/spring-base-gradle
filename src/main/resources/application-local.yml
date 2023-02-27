@@ -1,0 +1,15 @@
+management:
+  metrics:
+    web:
+      exposure:
+        include: '*'
+    export:
+      influx:
+        enabled: true
+        step: PT10S
+        readTimeout: PT30S
+        batchSize: 20000
+        uri: "http://localhost:8086"
+        org: "home"
+        bucket: "springboot"
+        token: JfjEBIvvV6Ro8VhHcClj7chNb3b6l_pspZ2zhgnVkpbhr_HFU0qYva2C2CLihjFlaCVSzHukpHPI7EohbF-Yog==

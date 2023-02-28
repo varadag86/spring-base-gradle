@@ -52,6 +52,33 @@ tasks.withType(Checkstyle) {
 }
 ```
 
+### Why do we need Pre-commit
+It is essential to have sanity checks such as linters, junit and generation of unit test coverage for every project. This allows developers to test and verify functionality and ensure that a good code is shipped to git.
+While jUnit, jacoco and checkstyle enables developers to test their code quality, often it becomes compromised when these commands are not executed before the code is pushed. Therefore adding `pre-commit` hooks will ensure that the code runs through the sanity checks before the commit process is triggered. This happens automatically during git commit process.
+
+**Step 1:** Add a file `pre-commit` on the root directory of the project.
+**Step 2:** Include pre-commit checks.
+```shell
+#!/bin/bash
+
+echo "Running git pre-commit hook"
+git stash -q --keep-index
+./gradlew clean build
+RESULT=$?
+git stash pop -q
+
+# return 1 exit code if running checks fails
+[ $RESULT -ne 0 ] && exit 1
+exit 0
+```
+**Step 3:** Add `build.gradle` gradle task.
+```groovy
+task installGitHook(type: Copy) {
+	from new File(projectDir, 'pre-commit')
+	into { new File(projectDir, '.git/hooks') }
+	fileMode 0777
+}
+```
 
 ### What more to come?
 1. Cross-cutting concerns for the application such as exception handling, logging etc.

@@ -21,7 +21,7 @@ public class Health {
     @Operation(
             summary = "Get health info",
             description = "The description of the API is get health information",
-            tags = { "contact" }
+            tags = { "health" }
     )
     @ApiResponses(
             value = {
